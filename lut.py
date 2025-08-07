@@ -63,10 +63,10 @@ def wave(t):
     u = np.sin(t)
     v = np.sin(t - 2*np.pi/3)
     w = np.sin(t + 2*np.pi/3)
-    z = 0 #正弦波PWM
-    z = np.sin(3*t)/6 #1/6重畳THI
+    # z = 0 #正弦波PWM
+    # z = np.sin(3*t)/6 #1/6重畳THI
     # z = np.sin(3*t)/4 #1/4重畳THI
-    z = (np.max([u,v,w]) + np.min([u,v,w]))*-0.5 #SVM
+    z = (np.max([u,v,w]) + np.min([u,v,w]))/-2 #SVM
     return w + z
 
 

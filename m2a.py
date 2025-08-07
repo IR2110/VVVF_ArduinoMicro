@@ -13,7 +13,7 @@ def wave(t):
     z = 0 #正弦波PWM
     # z = np.sin(3*t)/6 #1/6重畳THI
     # z = np.sin(3*t)/4 #1/4重畳THI
-    # z = (np.max([u,v,w]) + np.min([u,v,w]))*-0.5 #SVM
+    z = (np.max([u,v,w]) + np.min([u,v,w]))*-0.5 #SVM
     return u + z
 
 #フーリエ計算用
