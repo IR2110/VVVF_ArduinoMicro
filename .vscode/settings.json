@@ -3,12 +3,14 @@
     "C_Cpp.default.browse.path": [
         "/Users/ir2302/Library/Arduino15/libraries/**",
         "/Users/ir2302/Library/Arduino15/packages/arduino/hardware/**",
-        "/Users/ir2302/Library/Arduino15/packages/arduino/tools/**"
+        "/Users/ir2302/Library/Arduino15/packages/arduino/tools/**",
+        "${workspaceFolder}/**"
     ],
     "C_Cpp.default.includePath": [
         "/Users/ir2302/Library/Arduino15/libraries/**",
         "/Users/ir2302/Library/Arduino15/packages/arduino/hardware/**",
-        "/Users/ir2302/Library/Arduino15/packages/arduino/tools/**"
+        "/Users/ir2302/Library/Arduino15/packages/arduino/tools/**",
+        "${workspaceFolder}/**"
     ],
     "C_Cpp.default.defines": [
         "USBCON"

@@ -1,8 +1,9 @@
-#include <avr/io.h>
 #include <avr/interrupt.h>
-#include <stdint.h>
+#include <avr/io.h>
 #include <avr/pgmspace.h>
-#include "ModController.h"
+#include <stdint.h>
+
+#include "pwm_controller.h"
 
 pwm_config pm;
 PulseModeReference pmref;

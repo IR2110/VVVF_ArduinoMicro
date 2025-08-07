@@ -1,3 +1,5 @@
+#ifndef PWM_CONTROLLER_H
+#define PWM_CONTROLLER_H
 
 #include <math.h>
 
@@ -89,3 +91,5 @@ void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
     }
     pm->increment = increment;
 }
+
+#endif  // PWM_CONTROLLER_H
