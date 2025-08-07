@@ -83,21 +83,9 @@ void update_duties_and_set_ocr() {
 
     uint8_t phase_index = (uint8_t)(phase_accumulator / SHIFT);
 
-    float duty_u =
-        ((float)(pgm_read_byte_near(&SIN_U[pm_hold.sig_mode][phase_index]) -
-                 127) *
-             pm_hold.modulation_index +
-         0.5f);
-    float duty_v =
-        ((float)(pgm_read_byte_near(&SIN_V[pm_hold.sig_mode][phase_index]) -
-                 127) *
-             pm_hold.modulation_index +
-         0.5f);
-    float duty_w =
-        ((float)(pgm_read_byte_near(&SIN_W[pm_hold.sig_mode][phase_index]) -
-                 127) *
-             pm_hold.modulation_index +
-         0.5f);
+    float duty_u = ((float)(pgm_read_byte_near(&SIN_U[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f);
+    float duty_v = ((float)(pgm_read_byte_near(&SIN_V[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f);
+    float duty_w = ((float)(pgm_read_byte_near(&SIN_W[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f);
 
     // 過変調してもタイマがぶっこわれないように制限
     duty_u = max(min(duty_u, 1), 0);
