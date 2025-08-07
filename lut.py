@@ -25,7 +25,7 @@ def to_c_array_and_copy(data, var_name="lut", data_type="int", items_per_line=16
     content_inside_braces = ",\n".join(formatted_elements)
 
     # クリップボードにコピーする文字列 ({ ... } の部分)
-    string_to_copy = f"{{\n{content_inside_braces}\n}}"
+    string_to_copy = f"{{{content_inside_braces}}}"
 
     # 表示用の完全なC言語配列定義文字列
     full_c_array_string = f"{data_type} {var_name}[{len(data)}] = {string_to_copy};"
@@ -63,14 +63,14 @@ def wave(t):
     u = np.sin(t)
     v = np.sin(t - 2*np.pi/3)
     w = np.sin(t + 2*np.pi/3)
-    # z = 0 #正弦波PWM
-    # z = np.sin(3*t)/6 #1/6重畳THI
+    z = 0 #正弦波PWM
+    z = np.sin(3*t)/6 #1/6重畳THI
     # z = np.sin(3*t)/4 #1/4重畳THI
     z = (np.max([u,v,w]) + np.min([u,v,w]))*-0.5 #SVM
     return w + z
 
 
-my_data = ((wave(np.arange(0, 256) / 256 * 2 * np.pi)) * 32767).astype(int)
+my_data = ((wave(np.arange(0, 256) / 256 * 2 * np.pi)) * 256).astype(int)
 
 # C言語での配列の変数名
 c_variable_name = "sine_wave_lut"
