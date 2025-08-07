@@ -4,9 +4,9 @@
 
 // 本番のPWM生成に使うためのちゃんと整形されたPWM設定。
 typedef struct pwm_config {
-  volatile float carrier_freq_hz = 1000.0f;
-  volatile float signal_freq_hz = 50.0f;
-  volatile float modulation_index = 0.5f;  // 信号波振幅
+  volatile float carrier_freq_hz;
+  volatile float signal_freq_hz;
+  volatile float modulation_index;  // 信号波振幅
   volatile uint8_t sig_mode;
 } pwm_config;
 
@@ -36,7 +36,7 @@ float calculate_voltage_coefficient(PulseModeReference pmref) {
 void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
   pm->carrier_freq_hz = pmref.fCarrier;
   pm->signal_freq_hz = pmref.fSig;
-  pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref) / 32767;
+  pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref);
   pm->sig_mode = min(pmref.SvmEnable * 2 + pmref.ThiEnable * 1,2);
 }
 
