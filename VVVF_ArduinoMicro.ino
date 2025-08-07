@@ -33,12 +33,13 @@ void setup() {
 
 void loop() {}
 
-ISR(TIMER3_COMPA_vect) {
-    // 10msごとにfSigとmVoltageを更新
+void update() {  // 100Hzごとに呼ばれる
     pmref.fSig = pmref.fSig + 0.01f;
     pmref.mVoltage = pmref.fSig / 60.0f + 0.02f;
     UpdatePwmMode(pmref, &pm);
 }
+
+ISR(TIMER3_COMPA_vect) { update(); }
 
 // タイマ1の初期化
 void setup_timer1_3phase() {
