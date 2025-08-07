@@ -9,11 +9,14 @@
 #define PRESCALER_VALUE 8
 #define TIMER_CLOCK (F_CPU / PRESCALER_VALUE)
 
+//位相倍率(2^10)
+#define SHIFT 1024
+
 pwm_config pm;
 PulseModeReference pmref;
 
 // 位相アキュムレータ (16ビットで高精度を確保)
-volatile uint16_t phase_accumulator = 0;
+volatile uint32_t phase_accumulator = 0;
 
 // --- プロトタイプ宣言 ---
 void setup_timer1_3phase();
@@ -23,7 +26,7 @@ void update_duties_and_set_ocr();
 
 int main() {
 
-  pmref.mVoltage = 0.7f;
+  pmref.mVoltage = 0.9f;
   pmref.fCarrier = 2000.0f;
   pmref.fSig = 50.0f;
   pmref.SvmEnable = 1;
@@ -66,16 +69,16 @@ void update_duties_and_set_ocr() {
     top_val = (uint16_t)(TIMER_CLOCK / (2.0f * pm_hold.carrier_freq_hz));
   }
 
-  ICR1 = top_val - 1;
+  ICR1 = top_val;
 
-  uint16_t increment = 0;
+  uint32_t increment = 0;
   if (pm_hold.carrier_freq_hz > 0) {
-    increment = (uint16_t)((pm_hold.signal_freq_hz / (2.0f * pm_hold.carrier_freq_hz)) * 65536);
+    increment = (uint32_t)((pm_hold.signal_freq_hz / (2.0f * pm_hold.carrier_freq_hz)) * 256 * SHIFT);
   }
   phase_accumulator += increment;
-
-  // 32ビットアキュムレータの上位8ビットをサインテーブルのインデックスとして使用
-  uint8_t phase_index = (uint8_t)(phase_accumulator >> 8);
+  phase_accumulator &= 256 * SHIFT-1;//剰余
+  
+  uint8_t phase_index = (uint8_t)(phase_accumulator / SHIFT);
 
   float duty_u = ((float)(pgm_read_byte_near(&SIN_U[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
   float duty_v = ((float)(pgm_read_byte_near(&SIN_V[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
@@ -88,15 +91,15 @@ void update_duties_and_set_ocr() {
   uint16_t ocr_b = (uint16_t)(duty_v * (float)top_val);
   uint16_t ocr_c = (uint16_t)(duty_w * (float)top_val);
 
-  OCR1A = ocr_a - 1;
-  OCR1B = ocr_b - 1;
-  OCR1C = ocr_c - 1;
+  OCR1A = ocr_a;
+  OCR1B = ocr_b;
+  OCR1C = ocr_c;
 }
 
 // カウンタがBOTTOM(谷)に達したとき
 ISR(TIMER1_OVF_vect) {
   update_duties_and_set_ocr();
-  //TCCR1A = 0b10101010;  // 次の更新はTOP(山)
+  TCCR1A = 0b10101010;  // 次の更新はTOP(山)
 }
 
 // カウンタがTOP(山)に達したとき
