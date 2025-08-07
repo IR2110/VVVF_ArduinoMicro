@@ -34,7 +34,7 @@ void setup() {
 void loop() {}
 
 void update() {  //  samplingRate [Hz]ごとに呼ばれる
-    pmref.fSig = pmref.fSig + 0.01f;
+    pmref.fSig += 4 / samplingRate;
     pmref.mVoltage = pmref.fSig / 60.0f + 0.02f;
     UpdatePwmMode(pmref, &pm);
 }
