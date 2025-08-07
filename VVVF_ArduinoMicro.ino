@@ -8,12 +8,11 @@
 pwm_config pm;
 PulseModeReference pmref;
 
-// 位相アキュムレータ
+// 位相アキュムレータ（DDSよろしくのアレ）
 volatile uint32_t phase_accumulator = 0;
 
 const float samplingRate = 100.0f;
 
-// --- プロトタイプ宣言 ---
 void setup_timer1_3phase();
 void update_carrier_frequency();
 void update_signal_frequency();
@@ -39,8 +38,6 @@ void update() {  //  samplingRate [Hz]ごとに呼ばれる
     pmref.mVoltage = pmref.fSig / 60.0f + 0.02f;
     UpdatePwmMode(pmref, &pm);
 }
-
-ISR(TIMER3_COMPA_vect) { update(); }
 
 // タイマ1の初期化
 void setup_timer1_3phase() {
@@ -114,12 +111,16 @@ void update_duties_and_set_ocr() {
 
 // カウンタがBOTTOM（谷）に達したとき
 ISR(TIMER1_OVF_vect) {
-  update_duties_and_set_ocr();
-  TCCR1A = 0b10101010;  // 次の更新はTOP（山）
+    update_duties_and_set_ocr();
+    TCCR1A = 0b10101010;  // 次の更新はTOP（山）
 }
 
 // カウンタがTOP（山）に達したとき
 ISR(TIMER1_CAPT_vect) {
-  update_duties_and_set_ocr();
-  TCCR1A = 0b10101000;  // 次の更新はBOTTOM（谷）
+    update_duties_and_set_ocr();
+    TCCR1A = 0b10101000;  // 次の更新はBOTTOM（谷）
+}
+
+ISR(TIMER3_COMPA_vect) {  // update呼ぶ
+    update();
 }
