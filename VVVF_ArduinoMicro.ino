@@ -83,18 +83,20 @@ void update_duties_and_set_ocr() {
 
     uint8_t phase_index = (uint8_t)(phase_accumulator / SHIFT);
 
-    float duty_u = ((float)(pgm_read_byte_near(&SIN_U[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f);
-    float duty_v = ((float)(pgm_read_byte_near(&SIN_V[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f);
-    float duty_w = ((float)(pgm_read_byte_near(&SIN_W[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f);
+    //0~top
+    uint16_t duty_u = (uint16_t)(((float)(pgm_read_byte_near(&SIN_U[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f) * pm_hold.top);
+    uint16_t duty_v = (uint16_t)(((float)(pgm_read_byte_near(&SIN_V[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f) * pm_hold.top);
+    uint16_t duty_w = (uint16_t)(((float)(pgm_read_byte_near(&SIN_W[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index + 0.5f) * pm_hold.top);
 
     // 過変調してもタイマがぶっこわれないように制限
-    duty_u = max(min(duty_u, 1), 0);
-    duty_v = max(min(duty_v, 1), 0);
-    duty_w = max(min(duty_w, 1), 0);
+    duty_u = max(min(duty_u, pm_hold.top), 0);
+    duty_v = max(min(duty_v, pm_hold.top), 0);
+    duty_w = max(min(duty_w, pm_hold.top), 0);
 
-    OCR1A = (uint16_t)(duty_u * pm_hold.top);
-    OCR1B = (uint16_t)(duty_v * pm_hold.top);
-    OCR1C = (uint16_t)(duty_w * pm_hold.top);
+    OCR1A = duty_u;
+    OCR1B = duty_v;
+    OCR1C = duty_w;
+
 }
 
 // カウンタがBOTTOM（谷）に達したとき

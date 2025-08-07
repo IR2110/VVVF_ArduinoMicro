@@ -63,14 +63,14 @@ def wave(t):
     u = np.sin(t)
     v = np.sin(t - 2*np.pi/3)
     w = np.sin(t + 2*np.pi/3)
-    # z = 0 #正弦波PWM
+    z = 0 #正弦波PWM
     # z = np.sin(3*t)/6 #1/6重畳THI
     # z = np.sin(3*t)/4 #1/4重畳THI
-    z = (np.max([u,v,w]) + np.min([u,v,w]))/-2 #SVM
-    return w + z
+    # z = (np.max([u,v,w]) + np.min([u,v,w]))/-2 #SVM
+    return u + z
 
 
-my_data = ((wave(np.arange(0, 256) / 256 * 2 * np.pi)) * 127 + 127).astype(int)
+my_data = ((wave(np.arange(0, 256) / 256 * 2 * np.pi)) * 128 + 128).astype(int)
 
 # C言語での配列の変数名
 c_variable_name = "sine_wave_lut"
