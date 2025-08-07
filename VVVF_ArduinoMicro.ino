@@ -77,9 +77,9 @@ void update_duties_and_set_ocr() {
   // 32ビットアキュムレータの上位8ビットをサインテーブルのインデックスとして使用
   uint8_t phase_index = (uint8_t)(phase_accumulator >> 8);
 
-  float duty_u = ((float)pgm_read_byte_near(&SIN_U[2][phase_index]) * pm_hold.modulation_index / 256.0f + 0.5f);
-  float duty_v = ((float)pgm_read_byte_near(&SIN_V[2][phase_index]) * pm_hold.modulation_index / 256.0f + 0.5f);
-  float duty_w = ((float)pgm_read_byte_near(&SIN_W[2][phase_index]) * pm_hold.modulation_index / 256.0f + 0.5f);
+  float duty_u = ((float)(pgm_read_byte_near(&SIN_U[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
+  float duty_v = ((float)(pgm_read_byte_near(&SIN_V[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
+  float duty_w = ((float)(pgm_read_byte_near(&SIN_W[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
   duty_u = max(min(duty_u, 1), 0);
   duty_v = max(min(duty_v, 1), 0);
   duty_w = max(min(duty_w, 1), 0);

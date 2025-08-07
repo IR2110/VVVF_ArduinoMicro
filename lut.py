@@ -70,7 +70,7 @@ def wave(t):
     return w + z
 
 
-my_data = ((wave(np.arange(0, 256) / 256 * 2 * np.pi)) * 128).astype(int)
+my_data = ((wave(np.arange(0, 256) / 256 * 2 * np.pi)) * 127 + 127).astype(int)
 
 # C言語での配列の変数名
 c_variable_name = "sine_wave_lut"
