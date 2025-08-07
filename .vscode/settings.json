@@ -12,5 +12,9 @@
     ],
     "C_Cpp.default.defines": [
         "USBCON"
-    ]
+    ],
+    "files.associations": {
+        "queue": "cpp",
+        "stack": "cpp"
+    }
 }

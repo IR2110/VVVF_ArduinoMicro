@@ -100,17 +100,15 @@ void update_duties_and_set_ocr() {
                  127) *
              pm_hold.modulation_index +
          0.5f);
+
+    // 過変調してもタイマがぶっこわれないように制限
     duty_u = max(min(duty_u, 1), 0);
     duty_v = max(min(duty_v, 1), 0);
     duty_w = max(min(duty_w, 1), 0);
 
-    uint16_t ocr_a = (uint16_t)(duty_u * pm_hold.top);
-    uint16_t ocr_b = (uint16_t)(duty_v * pm_hold.top);
-    uint16_t ocr_c = (uint16_t)(duty_w * pm_hold.top);
-
-    OCR1A = ocr_a;
-    OCR1B = ocr_b;
-    OCR1C = ocr_c;
+    OCR1A = (uint16_t)(duty_u * pm_hold.top);
+    OCR1B = (uint16_t)(duty_v * pm_hold.top);
+    OCR1C = (uint16_t)(duty_w * pm_hold.top);
 }
 
 // カウンタがBOTTOM(谷)に達したとき
