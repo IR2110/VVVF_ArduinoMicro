@@ -4,13 +4,7 @@
 #include <avr/pgmspace.h>
 #include "ModController.h"
 
-// --- 基本パラメータ設定 ---
-#define F_CPU 16000000UL
-#define PRESCALER_VALUE 8
-#define TIMER_CLOCK (F_CPU / PRESCALER_VALUE)
 
-//位相倍率(2^10)
-#define SHIFT 1024
 
 pwm_config pm;
 PulseModeReference pmref;
@@ -25,24 +19,27 @@ void update_signal_frequency();
 void update_duties_and_set_ocr();
 
 int main() {
-
-  pmref.mVoltage = 0.9f;
-  pmref.fCarrier = 2000.0f;
-  pmref.fSig = 50.0f;
-  pmref.SvmEnable = 1;
+  cli();
+  pmref.mVoltage = 0.3f;
+  pmref.fCarrier = 400.0f;
+  pmref.fSig = 15.0f;
+  pmref.SvmEnable = 0;
+  pmref.ThiEnable = 1;
   setup_timer1_3phase();
   sei();
   while (1) {
+    pmref.fSig = pmref.fSig + 1;
+    pmref.mVoltage = pmref.fSig / 60;
   }
   return 0;
 }
 
 // タイマ1の初期化
 void setup_timer1_3phase() {
-  init();
-      USBCON &= ~(1 << USBE); // USBマクロを無効化
-    PLLCSR = 0;             // PLLを無効化
-    UDIEN = 0;              // USB割り込みをすべて無効化
+  
+  USBCON &= ~(1 << USBE);  // USBマクロを無効化
+  PLLCSR = 0;              // PLLを無効化
+  UDIEN = 0;               // USB割り込みをすべて無効化
 
   DDRB |= (1 << DDB5) | (1 << DDB6) | (1 << DDB7);  // OC1A/B/Cを出力に設定
 
@@ -64,32 +61,23 @@ void setup_timer1_3phase() {
 void update_duties_and_set_ocr() {
   pwm_config pm_hold = pm;
 
-  uint16_t top_val = 0;
-  if (pm_hold.carrier_freq_hz > 0) {
-    top_val = (uint16_t)(TIMER_CLOCK / (2.0f * pm_hold.carrier_freq_hz));
-  }
+  ICR1 = pm_hold.top;
 
-  ICR1 = top_val;
+  phase_accumulator += pm_hold.increment;
+  phase_accumulator &= 256 * SHIFT - 1;  //剰余
 
-  uint32_t increment = 0;
-  if (pm_hold.carrier_freq_hz > 0) {
-    increment = (uint32_t)((pm_hold.signal_freq_hz / (2.0f * pm_hold.carrier_freq_hz)) * 256 * SHIFT);
-  }
-  phase_accumulator += increment;
-  phase_accumulator &= 256 * SHIFT-1;//剰余
-  
   uint8_t phase_index = (uint8_t)(phase_accumulator / SHIFT);
 
-  float duty_u = ((float)(pgm_read_byte_near(&SIN_U[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
-  float duty_v = ((float)(pgm_read_byte_near(&SIN_V[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
-  float duty_w = ((float)(pgm_read_byte_near(&SIN_W[2][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
+  float duty_u = ((float)(pgm_read_byte_near(&SIN_U[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
+  float duty_v = ((float)(pgm_read_byte_near(&SIN_V[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
+  float duty_w = ((float)(pgm_read_byte_near(&SIN_W[pm_hold.sig_mode][phase_index]) - 127) * pm_hold.modulation_index / 127.0f + 0.5f);
   duty_u = max(min(duty_u, 1), 0);
   duty_v = max(min(duty_v, 1), 0);
   duty_w = max(min(duty_w, 1), 0);
 
-  uint16_t ocr_a = (uint16_t)(duty_u * (float)top_val);
-  uint16_t ocr_b = (uint16_t)(duty_v * (float)top_val);
-  uint16_t ocr_c = (uint16_t)(duty_w * (float)top_val);
+  uint16_t ocr_a = (uint16_t)(duty_u * pm_hold.top);
+  uint16_t ocr_b = (uint16_t)(duty_v * pm_hold.top);
+  uint16_t ocr_c = (uint16_t)(duty_w * pm_hold.top);
 
   OCR1A = ocr_a;
   OCR1B = ocr_b;

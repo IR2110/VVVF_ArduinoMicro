@@ -2,12 +2,22 @@
 #include <math.h>
 #include "LUT.h"
 
+// --- 基本パラメータ設定 ---
+#define F_CPU 16000000UL
+#define PRESCALER_VALUE 8
+#define TIMER_CLOCK (F_CPU / PRESCALER_VALUE)
+
+//位相倍率(2^10)
+#define SHIFT 8192
+
 // 本番のPWM生成に使うためのちゃんと整形されたPWM設定。
 typedef struct pwm_config {
   volatile float carrier_freq_hz;
   volatile float signal_freq_hz;
   volatile float modulation_index;  // 信号波振幅
   volatile uint8_t sig_mode;
+  volatile uint16_t top;
+  volatile uint32_t increment;
 } pwm_config;
 
 //PWMパターン設定から送られてくるナマのPWM設定
@@ -34,9 +44,22 @@ float calculate_voltage_coefficient(PulseModeReference pmref) {
 }
 
 void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
+  pmref.mVoltage = max(min(pmref.mVoltage, 1), 0);
   pm->carrier_freq_hz = pmref.fCarrier;
   pm->signal_freq_hz = pmref.fSig;
-  pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref);
+  pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref)/2;
   pm->sig_mode = min(pmref.SvmEnable * 2 + pmref.ThiEnable * 1,2);
+
+  uint16_t top_val = 0;
+  if (pm->carrier_freq_hz > 0) {
+    top_val = (uint16_t)(TIMER_CLOCK / (2.0f * pm->carrier_freq_hz));
+  }
+  pm->top = top_val;
+
+  uint32_t increment = 0;
+  if (pm->carrier_freq_hz > 0) {
+    increment = (uint32_t)((pm->signal_freq_hz / (2.0f * pm->carrier_freq_hz)) * 256 * SHIFT);
+  }
+  pm->increment = increment;
 }
 
