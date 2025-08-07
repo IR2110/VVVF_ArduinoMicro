@@ -54,7 +54,7 @@ void setup_timer1_3phase() {
     // TCCR1A/Bレジスタ設定
     TCCR1A = (1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1);
     TCCR1B =
-        (1 << WGM13) | (1 << CS11);  // 位相基準PWM(TOP=ICR1), プリスケーラ8
+        (1 << WGM13) | (1 << CS11);  // 位相基準PWM（TOP=ICR1）、プリスケーラ8
 
     // 割り込み許可
     TIMSK1 = (1 << ICIE1) | (1 << TOIE1);
@@ -111,14 +111,14 @@ void update_duties_and_set_ocr() {
     OCR1C = (uint16_t)(duty_w * pm_hold.top);
 }
 
-// カウンタがBOTTOM(谷)に達したとき
+// カウンタがBOTTOM（谷）に達したとき
 ISR(TIMER1_OVF_vect) {
   update_duties_and_set_ocr();
-  TCCR1A = 0b10101010;  // 次の更新はTOP(山)
+  TCCR1A = 0b10101010;  // 次の更新はTOP（山）
 }
 
-// カウンタがTOP(山)に達したとき
+// カウンタがTOP（山）に達したとき
 ISR(TIMER1_CAPT_vect) {
   update_duties_and_set_ocr();
-  TCCR1A = 0b10101000;  // 次の更新はBOTTOM(谷)
+  TCCR1A = 0b10101000;  // 次の更新はBOTTOM（谷）
 }
