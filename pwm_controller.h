@@ -13,7 +13,10 @@
 // 位相倍率(2^n)
 #define SHIFT 2097152
 
+//最大キャリア周波数
 #define MAX_FC 1800
+
+//最大信号周波数
 #define MAX_FSIG 100
 
 // 本番のPWM生成に使うためのちゃんと整形されたPWM設定。
