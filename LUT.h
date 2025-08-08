@@ -1,9 +1,6 @@
 #ifndef LUT_H
 #define LUT_H
 
-#include <avr/interrupt.h>
-#include <avr/io.h>
-#include <avr/pgmspace.h>
 #include <stdint.h>
 
 // 0が正弦波PWM, 1がTHI(1/6), 2がSVM （lut.pyで生成）
