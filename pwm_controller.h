@@ -14,6 +14,7 @@
 #define SHIFT 2097152
 
 #define MAX_FC 1500
+#define MAX_FSIG 100
 
 // 本番のPWM生成に使うためのちゃんと整形されたPWM設定。
 typedef struct pwm_config {
@@ -50,6 +51,7 @@ float calculate_voltage_coefficient(PulseModeReference pmref) {
 void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
   pmref.mVoltage = max(min(pmref.mVoltage, 1), 0);
   pm->carrier_freq_hz = min(pmref.fCarrier, MAX_FC);
+  pmref.fSig = min(pmref.fSig, MAX_FSIG);
   pm->signal_freq_hz = pmref.fSig;
   pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref) / (2 * 127);
   pm->sig_mode = min(pmref.SvmEnable * 2 + pmref.ThiEnable * 1, 2);
