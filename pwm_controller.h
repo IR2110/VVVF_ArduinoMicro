@@ -13,7 +13,7 @@
 // 位相倍率(2^n)
 #define SHIFT 2097152
 
-#define MAX_FC 1500
+#define MAX_FC 1800
 #define MAX_FSIG 100
 
 // 本番のPWM生成に使うためのちゃんと整形されたPWM設定。

@@ -16,7 +16,7 @@ PulseModeReference pmref;
 // 位相アキュムレータ（DDSよろしくのアレ）
 volatile uint32_t phase_accumulator = 0;
 
-const float samplingRate = 1000.0f;
+const float samplingRate = 100.0f;
 
 //update実行したいなフラグ
 volatile bool param_update_pending = false;
@@ -32,7 +32,7 @@ void setup() {
   pmref.mVoltage = 0.0f;
   pmref.fCarrier = 1000.0f;
   pmref.fSig = 0.0f;
-  pmref.SvmEnable = 0;
+  pmref.SvmEnable = 1;
   pmref.ThiEnable = 0;
   UpdatePwmMode(pmref, &pm);
   setup_timer1_3phase();
@@ -62,12 +62,14 @@ void loop() {
 
 void update() {  //  samplingRate [Hz]ごとに呼ばれる
   pmref.fSig += 4 / samplingRate;
-  pmref.mVoltage = pmref.fSig / 60.0f + 0.02f;
+  pmref.mVoltage = pmref.fSig / 80.0f + 0.02f;
+
+  float fsw = 900;
   if (pm.modulation_index * (2 * 127) > 1) {
     //過変調になっても平均SW回数を一定にする（謎こだわり）
-    pmref.fCarrier = 525 * (M_PI / 2) / asin(max(min(1 / (pm.modulation_index * (2 * 127)), 1), -1));
+    pmref.fCarrier = fsw * (M_PI / 2) / asin(max(min(1 / (pm.modulation_index * (2 * 127)), 1), -1));
   } else {
-    pmref.fCarrier = 525;
+    pmref.fCarrier = fsw;
   }
 }
 
