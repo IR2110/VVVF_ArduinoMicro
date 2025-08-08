@@ -4,6 +4,12 @@
 
 #include "pwm_controller.h"
 
+/*
+D9 U
+D10 V
+D11 W
+*/
+
 pwm_config pm;
 PulseModeReference pmref;
 
