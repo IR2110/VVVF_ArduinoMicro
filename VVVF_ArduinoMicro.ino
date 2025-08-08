@@ -73,8 +73,7 @@ void setup_timer3_param_update() {
 
 // 割り込み処理共通
 void update_duties_and_set_ocr() {
-    pwm_config pm_hold =
-        pm;  // バッファをとっておいて、これを実行中にupdateが走ってpmが変更されても影響しないように
+    pwm_config pm_hold = pm;  // バッファをとっておいて、これを実行中にupdateが走ってpmが変更されても影響しないように
 
     ICR1 = pm_hold.top;
 
