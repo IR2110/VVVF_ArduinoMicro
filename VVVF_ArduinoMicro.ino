@@ -5,10 +5,25 @@
 #include "pwm_controller.h"
 
 /*
-D9 U
-D10 V
-D11 W
+  概要:
+    - Arduino Micro (ATmega32U4) で三相中心対称PWMを生成し、VVVF用の三相出力(U/V/W)を出力する。
+    - Timer1: 位相基準PWM (Phase and Frequency Correct PWM, TOP=ICR1) により OC1A/OC1B/OC1C で3相を出力。
+    - Timer3: 一定周期 (samplingRate [Hz]) でパラメータ更新要求フラグを立て、メインループで安全に反映。
+    - 波形生成: DDS方式 (phase_accumulator と SIN_* LUT) により基本波の位相を進め、変調率を掛けてデューティに変換。
+    - pwm_controller.h: 参照/指令パラメータ (pmref) から、TOP/インクリメント/変調率など実行用構成 (pm) を決定。
+
+  ポート/ピン対応 (32U4):
+    - D9  -> OC1A (U相)
+    - D10 -> OC1B (V相)
+    - D11 -> OC1C (W相)
+
+  注意:
+    - USB機能を無効化してPB5/PB6/PB7 (OC1A/B/C) を安定して出力に使用。
+    - 割り込みとメイン間で共有する構造体/フラグは、クリティカルセクションで保護。
+    - 信号波周波数100Hzまで加速して、そのまま100Hzを出力し続ける。
+    - デッドタイムの生成はハードウェア制約からArduino側で行わない。
 */
+
 
 pwm_config pm;
 PulseModeReference pmref;
@@ -43,20 +58,20 @@ void setup() {
 void loop() {
   // フラグが立っていたら1回分処理
   if (param_update_pending) {
-    uint8_t sreg = SREG;
+      uint8_t sreg = SREG; //ステータス・レジスタを保存
     cli();
     param_update_pending = false;
-    SREG = sreg;
+    SREG = sreg; //ステータス・レジスタを復元
 
     update();
 
     pwm_config new_pm;
     UpdatePwmMode(pmref, &new_pm);
 
-    sreg = SREG;
+    sreg = SREG; //ステータス・レジスタを保存
     cli();
     pm = new_pm;
-    SREG = sreg;
+    SREG = sreg; //ステータス・レジスタを復元
   }
 }
 
@@ -64,7 +79,7 @@ void update() {  //  samplingRate [Hz]ごとに呼ばれる
   pmref.fSig += 4 / samplingRate;
   pmref.mVoltage = pmref.fSig / 80.0f + 0.02f;
 
-  float fsw = 900;
+  float fsw = 525.0f;
   if (pm.modulation_index * (2 * 127) > 1) {
     //過変調になっても平均SW回数を一定にする（謎こだわり）
     pmref.fCarrier = fsw * (M_PI / 2) / asin(max(min(1 / (pm.modulation_index * (2 * 127)), 1), -1));
