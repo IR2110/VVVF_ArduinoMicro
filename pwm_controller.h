@@ -36,13 +36,13 @@ typedef struct PulseModeReference {
 float calculate_voltage_coefficient(PulseModeReference pmref) {
     float voltage_coefficient = 4.0f / M_PI;
     if (pmref.SvmEnable == false && pmref.ThiEnable == false) {
-        voltage_coefficient = pmref.mVoltage < 0.786f ? 4.0f / M_PI : 4.0f / M_PI + pow(1.8477033761888386f * CORRECTIONFACTOR_NORMAL[(byte)min(213, (pmref.mVoltage - 0.786f) * 1000)] / 255, 4);
+        voltage_coefficient = pmref.mVoltage < 0.786f ? 4.0f / M_PI : 4.0f / M_PI + pow(2.267303569733523f * CORRECTIONFACTOR_NORMAL[(byte)min(213, (pmref.mVoltage - 0.786f) * 1000)] / 255, 3);
     }
     else if (pmref.SvmEnable == false && pmref.ThiEnable == true) {
-        voltage_coefficient = pmref.mVoltage < 0.906f ? 4.0f / M_PI : 4.0f / M_PI + pow(2.0404186746129294f * CORRECTIONFACTOR_THI[(byte)min(93, (pmref.mVoltage - 0.906f) * 1000)] / 255, 4);
+        voltage_coefficient = pmref.mVoltage < 0.906f ? 4.0f / M_PI : 4.0f / M_PI + pow(1.9451517598583832f * CORRECTIONFACTOR_THI[(byte)min(92, (pmref.mVoltage - 0.907f) * 1000)] / 255, 3);
     }
     else if (pmref.SvmEnable == true && pmref.ThiEnable == false) {
-        voltage_coefficient = pmref.mVoltage < 0.906f ? 4.0f / M_PI : 4.0f / M_PI + pow(2.040232291671307f * CORRECTIONFACTOR_SVM[(byte)min(93, (pmref.mVoltage - 0.906f) * 1000)] / 255, 4);
+        voltage_coefficient = pmref.mVoltage < 0.906f ? 4.0f / M_PI : 4.0f / M_PI + pow(1.9439334827663977f * CORRECTIONFACTOR_SVM[(byte)min(92, (pmref.mVoltage - 0.907f) * 1000)] / 255, 3);
     }
     return voltage_coefficient;
 }

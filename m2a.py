@@ -13,7 +13,7 @@ def wave(t):
     z = 0 #正弦波PWM
     # z = np.sin(3*t)/6 #1/6重畳THI
     # z = np.sin(3*t)/4 #1/4重畳THI
-    z = (np.max([u,v,w]) + np.min([u,v,w]))*-0.5 #SVM
+    # z = (np.max([u,v,w]) + np.min([u,v,w]))*-0.5 #SVM
     return u + z
 
 #フーリエ計算用
@@ -58,24 +58,40 @@ m_results = []
 # 過変調の境界値を求める
 res = minimize_scalar(lambda t: -wave(t), bounds=(0, np.pi/2), method='bounded')
 max_wave_val = -res.fun
-
-
-# CSVファイルを開く
-with open('output.csv', 'w', newline='') as f:
-    writer = csv.writer(f)
-    # 各mのときのaを計算
-    for m_value in m_values:
+# 各mのときのaを計算
+for m_value in m_values:
         try:
             a_value = solve_equation(m_value, initial_guesses, max_wave_val)
-            # CSVファイルに書き込む
-            writer.writerow([f"{m_value:.3f}", f"{a_value:.8f}"])
-            # グラフ描画用に結果を保存
             a_results.append(a_value)
             m_results.append(m_value)
 
         except RuntimeError as e:
             print(f"Error for m = {m_value:.3f}: {e}")
 
+def convert(a,m):
+    correction_factor = (a/m)-4/np.pi
+    return pow(correction_factor, 1/3)
+
+
+# CSVファイルを開く
+with open('output.csv', 'w', newline='') as f:
+    writer = csv.writer(f)
+
+    # a_resultsが1/max_wave_val以下の要素を削除し、対応するm_resultsも同じindexで削除
+    threshold = 1.0 / max_wave_val
+    filtered = [(m, a) for m, a in zip(m_results, a_results) if a > threshold]
+    m_results[:] = [m for m, _ in filtered]
+    a_results[:] = [a for _, a in filtered]
+
+
+    for m_value, a_value in zip(m_results, a_results):
+        a_value = convert(a_value, m_value) #電圧補償係数を変換
+
+        a_value *= 255 / convert(max(a_results), max(m_results))
+        a_value = int(round(a_value))  # 整数に変換
+        writer.writerow([f"{m_value:.3f}", f"{a_value}"])
+
+print(convert(max(a_results), max(m_results)))
 # グラフの描画
 if a_results:
     plt.figure()
