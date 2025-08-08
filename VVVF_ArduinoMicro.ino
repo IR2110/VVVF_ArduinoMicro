@@ -91,6 +91,7 @@ void update_duties_and_set_ocr() {
     duty_v = max(min(duty_v, pm_hold.top), 0);
     duty_w = max(min(duty_w, pm_hold.top), 0);
 
+    // 出力コンペアレジスタに設定
     OCR1A = duty_u;
     OCR1B = duty_v;
     OCR1C = duty_w;
