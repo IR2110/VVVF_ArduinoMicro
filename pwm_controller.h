@@ -51,8 +51,7 @@ void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
     pmref.mVoltage = max(min(pmref.mVoltage, 1), 0);
     pm->carrier_freq_hz = pmref.fCarrier;
     pm->signal_freq_hz = pmref.fSig;
-    pm->modulation_index =
-        pmref.mVoltage * calculate_voltage_coefficient(pmref) / (2 * 127);
+    pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref) / (2 * 127);
     pm->sig_mode = min(pmref.SvmEnable * 2 + pmref.ThiEnable * 1, 2);
 
     uint16_t top_val = 0;
