@@ -49,9 +49,8 @@ void setup_timer1_3phase() {
     DDRB |= (1 << DDB5) | (1 << DDB6) | (1 << DDB7);  // OC1A/B/Cを出力に設定
 
     // TCCR1A/Bレジスタ設定
-    TCCR1A = (1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1);
-    TCCR1B =
-        (1 << WGM13) | (1 << CS11);  // 位相基準PWM（TOP=ICR1）、プリスケーラ8
+    TCCR1A = (1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1); // 次の更新はBOTTOM（谷）
+    TCCR1B = (1 << WGM13) | (1 << CS11);  // 位相基準PWM（TOP=ICR1）、プリスケーラ8
 
     // 割り込み許可
     TIMSK1 = (1 << ICIE1) | (1 << TOIE1);
@@ -109,6 +108,6 @@ ISR(TIMER1_CAPT_vect) {
     TCCR1A = 0b10101000;  // 次の更新はBOTTOM（谷）
 }
 
-ISR(TIMER3_COMPA_vect) {  // update呼ぶ
+ISR(TIMER3_COMPA_vect) {  // updateをsamplingRate [Hz]で呼ぶ
     update();
 }
