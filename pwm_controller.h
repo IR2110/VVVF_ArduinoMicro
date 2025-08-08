@@ -49,6 +49,7 @@ float calculate_voltage_coefficient(PulseModeReference pmref) {
   return voltage_coefficient;
 }
 
+//参照/指令パラメータ(pmref)->実行構成(pm)への変換
 void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
   pmref.mVoltage = max(min(pmref.mVoltage, 1), 0);
   pm->carrier_freq_hz = min(pmref.fCarrier, MAX_FC);
