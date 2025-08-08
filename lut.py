@@ -102,7 +102,7 @@ def wave(t, mode):
     # z = np.sin(3*t)/6 #1/6重畳THI
     # z = np.sin(3*t)/4 #1/4重畳THI
     # z = (np.max([u,v,w]) + np.min([u,v,w]))*-0.5 #SVM
-    return w+z
+    return u+z
 
 spwm = []
 for i in range(256):
@@ -133,19 +133,25 @@ data = [spwm, thi, svm]
 
 import matplotlib.pyplot as plt
 
-# # グラフ描画
-# plt.figure(figsize=(12, 7))
-# plt.title("PWM Waveforms")
-# plt.xlabel("Phase [index]")
-# plt.ylabel("Value")
+# グラフ描画
+plt.figure(figsize=(12, 7))
+plt.title("PWM Waveforms")
+plt.xlabel("Phase [index]")
+plt.ylabel("Value")
 
-# labels = ["SPWM", "THI", "SVM"]
-# for i, waveform in enumerate(data):
-#     plt.plot(waveform, label=labels[i])
+labels = ["SPWM", "THI", "SVM"]
+x = np.arange(len(data[0]))
 
-# plt.legend()
-# plt.grid(True)
-# plt.show()
+for i, waveform in enumerate(data):
+    plt.step(x, waveform, where='post', label=labels[i], linewidth=1.2)
+    # plt.plot(x, waveform, 'o', markersize=2, alpha=0.6)  # サンプル点を表示して離散性を強調
+
+plt.legend()
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.xlim(0, len(x)-1)
+plt.tight_layout()
+plt.ylim(0, 255)
+plt.show()
 
 # C言語での配列の変数名
 c_variable_name = "sine_wave_lut"
