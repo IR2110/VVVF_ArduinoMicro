@@ -79,8 +79,6 @@ void setup_timer3_param_update() {
 void update_duties_and_set_ocr() {
   pwm_config pm_hold = pm;  // バッファをとっておいて、これを実行中にupdateが走ってpmが変更されても影響しないように
 
-  ICR1 = pm_hold.top;
-
   phase_accumulator += pm_hold.increment;
   phase_accumulator &= SIN_LENGTH * SHIFT - 1;  // 剰余
 
@@ -100,6 +98,8 @@ void update_duties_and_set_ocr() {
   OCR1A = (uint16_t)(duty_u * pm_hold.top);
   OCR1B = (uint16_t)(duty_v * pm_hold.top);
   OCR1C = (uint16_t)(duty_w * pm_hold.top);
+  // TOP値を設定
+  ICR1 = pm_hold.top;
 }
 
 // カウンタがBOTTOM（谷）に達したとき
