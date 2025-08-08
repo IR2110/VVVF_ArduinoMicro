@@ -96,9 +96,9 @@ void update_duties_and_set_ocr() {
   duty_w = max(min(duty_w, 1), 0);
 
   // 出力コンペアレジスタに設定
-  OCR1A = (uint16_t)(duty_u * (pm_hold.top));
-  OCR1B = (uint16_t)(duty_v * (pm_hold.top));
-  OCR1C = (uint16_t)(duty_w * (pm_hold.top));
+  OCR1A = (uint16_t)(duty_u * pm_hold.top);
+  OCR1B = (uint16_t)(duty_v * pm_hold.top);
+  OCR1C = (uint16_t)(duty_w * pm_hold.top);
 }
 
 // カウンタがBOTTOM（谷）に達したとき
