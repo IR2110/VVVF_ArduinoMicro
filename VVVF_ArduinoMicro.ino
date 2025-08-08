@@ -95,7 +95,6 @@ void update_duties_and_set_ocr() {
     OCR1A = duty_u;
     OCR1B = duty_v;
     OCR1C = duty_w;
-
 }
 
 // カウンタがBOTTOM（谷）に達したとき
