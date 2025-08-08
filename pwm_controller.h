@@ -39,6 +39,7 @@ typedef struct PulseModeReference {
 float calculate_voltage_coefficient(PulseModeReference pmref) {
   float voltage_coefficient = 4.0f / M_PI;
   if (pmref.SvmEnable == false && pmref.ThiEnable == false) {
+    // 量子化誤差低減のため3乗している。3には特別な意味はない
     voltage_coefficient = pmref.mVoltage < 0.786f ? 4.0f / M_PI : 4.0f / M_PI + pow(2.267303569733523f * CORRECTIONFACTOR_NORMAL[(byte)min(213, (pmref.mVoltage - 0.786f) * 1000)] / 255, 3);
   } else if (pmref.SvmEnable == false && pmref.ThiEnable == true) {
     voltage_coefficient = pmref.mVoltage < 0.906f ? 4.0f / M_PI : 4.0f / M_PI + pow(1.9451517598583832f * CORRECTIONFACTOR_THI[(byte)min(92, (pmref.mVoltage - 0.907f) * 1000)] / 255, 3);
