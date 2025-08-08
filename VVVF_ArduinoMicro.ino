@@ -24,13 +24,13 @@
     - デッドタイムの生成はハードウェア制約からArduino側で行わない。
 */
 
-
 pwm_config pm;
 PulseModeReference pmref;
 
 // 位相アキュムレータ（DDSよろしくのアレ）
 volatile uint32_t phase_accumulator = 0;
 
+// サンプリングレート [Hz]
 const float samplingRate = 100.0f;
 
 //update実行したいなフラグ
@@ -70,7 +70,7 @@ void loop() {
 
     sreg = SREG; //ステータス・レジスタを保存
     cli();
-    pm = new_pm;
+    pm = new_pm; //新しいPWM設定をまとめて適用
     SREG = sreg; //ステータス・レジスタを復元
   }
 }
@@ -122,12 +122,12 @@ void setup_timer3_param_update() {
 void update_duties_and_set_ocr() {
   pwm_config pm_hold = pm;  // バッファをとっておいて、これを実行中にupdateが走ってpmが変更されても影響しないように
 
-  phase_accumulator += pm_hold.increment;
+  phase_accumulator += pm_hold.increment; // θ積分
   phase_accumulator &= SIN_LENGTH * SHIFT - 1;  // 剰余
 
   uint8_t phase_index = (uint8_t)(phase_accumulator / SHIFT);
 
-  //0~top
+  //デューティー計算
   float duty_u = (((float)(pgm_read_byte_near(&SIN_U[pm_hold.sig_mode][phase_index]) - LUT_ZERO_LEVEL) * pm_hold.modulation_index + 0.5f));
   float duty_v = (((float)(pgm_read_byte_near(&SIN_V[pm_hold.sig_mode][phase_index]) - LUT_ZERO_LEVEL) * pm_hold.modulation_index + 0.5f));
   float duty_w = (((float)(pgm_read_byte_near(&SIN_W[pm_hold.sig_mode][phase_index]) - LUT_ZERO_LEVEL) * pm_hold.modulation_index + 0.5f));
