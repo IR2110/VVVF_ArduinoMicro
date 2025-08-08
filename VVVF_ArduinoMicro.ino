@@ -18,6 +18,9 @@ volatile uint32_t phase_accumulator = 0;
 
 const float samplingRate = 1000.0f;
 
+//update実行したいなフラグ
+volatile bool param_update_pending = false;
+
 void setup_timer1_3phase();
 void update_carrier_frequency();
 void update_signal_frequency();
@@ -31,12 +34,31 @@ void setup() {
   pmref.fSig = 0.0f;
   pmref.SvmEnable = 0;
   pmref.ThiEnable = 0;
+  UpdatePwmMode(pmref, &pm);
   setup_timer1_3phase();
   setup_timer3_param_update();
   sei();
 }
 
-void loop() {}
+void loop() {
+  // フラグが立っていたら1回分処理
+  if (param_update_pending) {
+    uint8_t sreg = SREG;
+    cli();
+    param_update_pending = false;
+    SREG = sreg;
+
+    update();
+
+    pwm_config new_pm;
+    UpdatePwmMode(pmref, &new_pm);
+
+    sreg = SREG;
+    cli();
+    pm = new_pm;
+    SREG = sreg;
+  }
+}
 
 void update() {  //  samplingRate [Hz]ごとに呼ばれる
   pmref.fSig += 4 / samplingRate;
@@ -47,7 +69,6 @@ void update() {  //  samplingRate [Hz]ごとに呼ばれる
   } else {
     pmref.fCarrier = 525;
   }
-  UpdatePwmMode(pmref, &pm);
 }
 
 // タイマ1の初期化
@@ -74,7 +95,6 @@ void setup_timer3_param_update() {
   TCCR3A = 0;
   TCCR3B = (1 << WGM32) | (1 << CS31) | (1 << CS30);
 
-  // (16000000 / 64) / 100Hz = 2500
   OCR3A = (uint16_t)((F_CPU / 64) / samplingRate);
 
   // タイマー3の比較A割り込みを有効化
@@ -120,6 +140,6 @@ ISR(TIMER1_CAPT_vect) {
   TCCR1A = 0b10101000;  // 次の更新はBOTTOM（谷）
 }
 
-ISR(TIMER3_COMPA_vect) {  // updateをsamplingRate [Hz]で呼ぶ
-  update();
+ISR(TIMER3_COMPA_vect) {  // update実行したいなフラグをsamplingRate [Hz]ごとに立てる
+  param_update_pending = true;
 }
