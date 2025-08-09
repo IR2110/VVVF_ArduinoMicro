@@ -69,10 +69,11 @@ for m_value in m_values:
         except RuntimeError as e:
             print(f"Error for m = {m_value:.3f}: {e}")
 
+
+#8bitにうまく格納するための変換用関数
 def convert(a,m):
     correction_factor = (a/m)-4/np.pi
     return pow(correction_factor, 1/3)
-
 
 # CSVファイルを開く
 with open('output.csv', 'w', newline='') as f:
