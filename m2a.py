@@ -1,3 +1,4 @@
+#過変調リニアリティ補正用テーブル生成プログラム
 
 import numpy as np
 from scipy.optimize import fsolve
