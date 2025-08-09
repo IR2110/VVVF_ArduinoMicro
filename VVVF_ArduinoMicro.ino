@@ -58,20 +58,20 @@ void setup() {
 void loop() {
   // フラグが立っていたら1回分処理
   if (param_update_pending) {
-      uint8_t sreg = SREG; //ステータス・レジスタを保存
+    uint8_t sreg = SREG;  //ステータス・レジスタを保存
     cli();
     param_update_pending = false;
-    SREG = sreg; //ステータス・レジスタを復元
+    SREG = sreg;  //ステータス・レジスタを復元
 
     update();
 
     pwm_config new_pm;
     UpdatePwmMode(pmref, &new_pm);
 
-    sreg = SREG; //ステータス・レジスタを保存
+    sreg = SREG;  //ステータス・レジスタを保存
     cli();
-    pm = new_pm; //新しいPWM設定をまとめて適用
-    SREG = sreg; //ステータス・レジスタを復元
+    pm = new_pm;  //新しいPWM設定をまとめて適用
+    SREG = sreg;  //ステータス・レジスタを復元
   }
 }
 
@@ -79,12 +79,14 @@ void update() {  //  samplingRate [Hz]ごとに呼ばれる
   pmref.fSig += 4 / samplingRate;
   pmref.mVoltage = pmref.fSig / 80.0f + 0.02f;
 
-  float fsw = 525.0f;
+  float fsw = 800.0f;
   if (pm.modulation_index * (2 * 127) > 1) {
     //過変調になっても平均SW回数を一定にする（謎こだわり）
     pmref.fCarrier = fsw * (M_PI / 2) / asin(max(min(1 / (pm.modulation_index * (2 * 127)), 1), -1));
   } else {
     pmref.fCarrier = fsw;
+    if (pmref.mVoltage < 0.2) pmref.fCarrier = 150 + (pmref.mVoltage - 0.05) * (fsw - 150) / 0.15;  //低変調率のときは低Fcにしたほうが効率良かったりする
+    if (pmref.mVoltage < 0.05) pmref.fCarrier = 150;
   }
 }
 
@@ -122,7 +124,7 @@ void setup_timer3_param_update() {
 void update_duties_and_set_ocr() {
   pwm_config pm_hold = pm;  // バッファをとっておいて、これを実行中にupdateが走ってpmが変更されても影響しないように
 
-  phase_accumulator += pm_hold.increment; // θ積分
+  phase_accumulator += pm_hold.increment;       // θ積分
   phase_accumulator &= SIN_LENGTH * SHIFT - 1;  // 剰余
 
   uint8_t phase_index = (uint8_t)(phase_accumulator / SHIFT);

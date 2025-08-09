@@ -14,7 +14,7 @@
 #define SHIFT 2097152
 
 //最大キャリア周波数
-#define MAX_FC 1800
+#define MAX_FC 2400
 
 //最大信号周波数
 #define MAX_FSIG 100
