@@ -14,7 +14,7 @@
 |D10|OC1B|V相|
 |D11|OC1C|W相|
 
-![alt](https://github.com/IR2110/VVVF_ArduinoMicro/blob/main/%E3%83%92%E3%82%9A%E3%83%B3%E9%85%8D%E7%BD%AE.png)
+![alt](https://github.com/IR2110/VVVF_ArduinoMicro/blob/main/%E3%83%94%E3%83%B3%E9%85%8D%E7%BD%AE.png)
 
 ## 注意:
 - Timer1はなぜかUSBに干渉するクソ仕様なので書き込み時にリセットボタンを2回押さないといけない。
