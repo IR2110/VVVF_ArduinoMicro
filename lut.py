@@ -3,10 +3,10 @@ import numpy as np
 
 def to_c_array_and_copy(data, var_name="lut", data_type="int", items_per_line=16):
     """
-    Pythonのリスト（多次元配列対応）をC言語の配列定義文字列に変換し、中身をクリップボードにコピーします。
+    Pythonのリスト（多次元配列対応）をC言語の配列定義文字列に変換し、中身をクリップボードにコピーするよ。
 
     Args:
-        data (list): 配列に変換するデータのリスト。
+        data (list): 配列に変換するデータのリスト
         var_name (str): C言語での変数名。
         data_type (str): C言語でのデータ型。
         items_per_line (int): 1行に表示する要素の数（最内周の配列に適用）。
