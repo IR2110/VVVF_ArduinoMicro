@@ -11,7 +11,8 @@
 #define TIMER_CLOCK (F_CPU / PRESCALER_VALUE)
 
 // 位相倍率(2^n)
-#define SHIFT 2097152
+#define SHIFT_BIT 24
+constexpr uint32_t SHIFT = (1UL << SHIFT_BIT);
 
 //最大キャリア周波数
 #define MAX_FC 2400
@@ -58,7 +59,7 @@ void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
   pm->carrier_freq_hz = min(pmref.fCarrier, MAX_FC);
   pmref.fSig = min(pmref.fSig, MAX_FSIG);
   pm->signal_freq_hz = pmref.fSig;
-  pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref) / (2 * 127);
+  pm->modulation_index = pmref.mVoltage * calculate_voltage_coefficient(pmref) / (2 * LUT_ZERO_LEVEL);
   pm->sig_mode = min(pmref.SvmEnable * 2 + pmref.ThiEnable * 1, 2);
 
   uint16_t top_val = 0;

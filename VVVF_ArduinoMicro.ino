@@ -78,7 +78,7 @@ void update() {  //  samplingRate [Hz]ごとに呼ばれる
   pmref.mVoltage = pmref.fSig / 80.0f + 0.02f;
 
   float fsw = 800.0f;
-  if (pm.modulation_index * (2 * 127) > 1) {
+  if (pm.modulation_index * (2 * LUT_ZERO_LEVEL) > 1) {
     //過変調になっても平均SW回数を一定にする（謎こだわり）
     pmref.fCarrier = fsw * (M_PI / 2) / asin(max(min(1 / (pm.modulation_index * (2 * 127)), 1), -1));
   } else {
