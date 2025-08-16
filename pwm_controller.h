@@ -71,8 +71,7 @@ void UpdatePwmMode(PulseModeReference pmref, pwm_config* pm) {
   uint32_t increment = 0;
   if (pm->carrier_freq_hz > 0) {
     increment =
-      (uint32_t)((pm->signal_freq_hz / (2.0f * pm->carrier_freq_hz)) * SIN_LENGTH * SHIFT);
-    //(uint32_t)((pm->signal_freq_hz / (1000)) * SIN_LENGTH * SHIFT);
+        (uint32_t)((pm->signal_freq_hz / (2.0f * pm->carrier_freq_hz)) * SIN_LENGTH * SHIFT);
   }
   pm->increment = increment;
 }
