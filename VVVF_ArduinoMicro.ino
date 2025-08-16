@@ -50,7 +50,7 @@ void setup() {
 	pmref.mVoltage = 0.0f;
 	pmref.fCarrier = 1000.0f;
 	pmref.fSig = 0.0f;
-	pmref.SvmEnable = 1;
+    pmref.SvmEnable = 0;
 	pmref.ThiEnable = 0;
 	UpdatePwmMode(pmref, &pm);
 	setup_timer1_3phase();
