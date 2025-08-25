@@ -162,7 +162,6 @@ ISR(TIMER1_CAPT_vect) {
 	TCCR1A = 0b10101000;  // 次の更新はBOTTOM（谷）
 }
 
-ISR(TIMER3_COMPA_vect) {  // update実行したいなフラグをsamplingRate
-	                      // [Hz]ごとに立てる
+ISR(TIMER3_COMPA_vect) {  // update実行したいなフラグをsamplingRate [Hz]ごとに立てる
 	param_update_pending = true;
 }
