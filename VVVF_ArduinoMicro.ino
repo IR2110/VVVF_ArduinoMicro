@@ -50,7 +50,7 @@ void setup() {
 	pmref.mVoltage = 0.0f;
 	pmref.fCarrier = 1000.0f;
 	pmref.fSig = 0.0f;
-    pmref.SvmEnable = 0;
+	pmref.SvmEnable = 0;
 	pmref.ThiEnable = 0;
 	UpdatePwmMode(pmref, &pm);
 	setup_timer1_3phase();
@@ -88,7 +88,8 @@ void update() {  //  samplingRate [Hz]ごとに呼ばれる
 		pmref.fCarrier = fsw * (M_PI / 2) / asin(max(min(1 / (pm.modulation_index * (2 * 127)), 1), -1));
 	} else {
 		pmref.fCarrier = fsw;
-		if (pmref.mVoltage < 0.2) pmref.fCarrier = 150 + (pmref.mVoltage - 0.05) * (fsw - 150) / 0.15;  //低変調率のときは低Fcにしたほうが効率良かったりする
+		if (pmref.mVoltage < 0.2)
+			pmref.fCarrier = 150 + (pmref.mVoltage - 0.05) * (fsw - 150) / 0.15;  //低変調率のときは低Fcにしたほうが効率良かったりする
 		if (pmref.mVoltage < 0.05) pmref.fCarrier = 150;
 	}
 }
