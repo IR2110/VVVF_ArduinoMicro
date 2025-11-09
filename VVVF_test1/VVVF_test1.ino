@@ -65,7 +65,7 @@ void setup() {
 }
 
 void loop() {
-  freq = min(freq + 0.004, 30);
+  freq = min(freq + 0.004, 100);
   modulation_index = freq / 70;
   sigwave_index_increment = (uint16_t)(freq / 2 / carrier_freq * SIN_LENGTH);
   delay(1);  //ひとまずテスト用なので厳密性は問わない
