@@ -1,19 +1,19 @@
-# Arduino MicroでVVVF（非同期のみ）
+# Arduino MicroでVVVF
+「インバータ技術2025年12月号 中学生でも作れる！VVVFインバータの創り方」 付属サンプルプログラム集
 
-## 概要
-* Arduino Micro (ATmega32U4) で三相PWMを生成し、VVVF用の三相出力(U/V/W)を出力する。
-* Timer1: 位相基準PWMor位相/周波数基準PWM (TOP=ICR1) により OC1A/OC1B/OC1C で3相を出力。
-* Timer3: 一定周期 (samplingRate [Hz]) でパラメータ更新要求フラグを立て、loopで反映。
-## ピン対応とか
-| ピン | ポート | 機能 |
-----|----|----
-|D9|OC1A|U相|
-|D10|OC1B|V相|
-|D11|OC1C|W相|
+# 各プログラムの概要
+## Pwm_1kHz
+ファイルパス: `Pwm_1kHz/Pwm_1kHz.ino`
+Arduino Microで1kHz、デューティ比50%のPWM信号を生成。
 
-![alt](https://github.com/IR2110/VVVF_ArduinoMicro/blob/main/%E3%83%94%E3%83%B3%E9%85%8D%E7%BD%AE.png)
+## Timer_Interrupt
+ファイルパス: `Timer_Interrupt/Timer_Interrupt.ino`
+タイマ割り込みを使って0.1sごとに13番ピン（緑色LED）をチカチカする。いわゆるLチカ。
 
-## 注意
-- Timer1はなぜかUSBに干渉するクソ仕様なので書き込み時にリセットボタンを2回押さないといけない。
-- 信号波周波数100Hzまで加速して、そのまま100Hzを出力し続ける。
-- デッドタイムの生成はハードウェア制約からArduino側で行わない。
+## VVVF_test1
+ファイルパス: `VVVF_test1/VVVF_test1.ino`
+3相PWMのテスト用プログラム。位相アキュムレータ知らない感じで実装してるので周波数分解能が7.2Hz。波形としてはそれっぽいけど使わないでね。
+
+## VVVF_Completed
+ファイルパス: `VVVVF_Completed/VVVF_Completed.ino`
+THI・SVMや電圧補償係数の実装もしてあるArduino Microで非同期PWMを出すためにいろいろ頑張ったやつ。
