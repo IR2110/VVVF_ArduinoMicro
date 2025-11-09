@@ -15,7 +15,7 @@ Arduino Microで1kHz、デューティ比50%のPWM信号を生成。
 ## VVVF_test1
 ファイルパス: `VVVF_test1/VVVF_test1.ino`
 
-3相PWMのテスト用プログラム。位相アキュムレータ知らない感じで実装してるので周波数分解能が7.2Hz。波形としてはそれっぽいけど使わないでね。
+3相PWMのテスト用プログラム。位相アキュムレータ知らない感じで実装してるので周波数分解能が7.8Hz。波形としてはそれっぽいけど多分ぶっ壊れるので使わないでね。
 
 ## VVVF_Completed
 ファイルパス: `VVVVF_Completed/VVVF_Completed.ino`
