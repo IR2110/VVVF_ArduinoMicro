@@ -53,7 +53,12 @@ void loop() {
 }
 
 void update() {  //  samplingRate [Hz]ごとに呼ばれる
-  pmref.fSig += 4 / samplingRate;
+  float Freq_ref = (fmin(fmax(analogRead(0), 128), 895) - 128) * MAX_FSIG / (1023 - 256);
+  if (pmref.fSig < Freq_ref) {
+    pmref.fSig += 4 / samplingRate;
+  } else {
+    pmref.fSig -= 4 / samplingRate;
+  }
   pmref.mVoltage = pmref.fSig / 70.0f;
 
   pmref.fCarrier = 800;
