@@ -1,0 +1,145 @@
+(footprint "NTPAN1R0LDKB0"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "Resistor, Box series, Radial, pin pitch=9.00mm, 5W, length*width=14.0*5.0mm^2, http://www.produktinfo.conrad.com/datenblaetter/425000-449999/443860-da-01-de-METALLBAND_WIDERSTAND_0_1_OHM_5W_5Pr.pdf")
+	(tags "Resistor Box series Radial pin pitch 9.00mm 5W length 14.0mm width 5.0mm")
+	(property "Reference" "REF**"
+		(at 4.5 -3.75 0)
+		(layer "F.SilkS")
+		(uuid "cc5bc71a-bed0-4ae5-b377-d1d0f116e9d3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "NTPAN1R0LDKB0"
+		(at 4.5 3.75 0)
+		(layer "F.Fab")
+		(uuid "4f96d72d-40aa-4134-9af1-b79e16d431b8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "924d37d9-1aa2-42c1-8cfa-d20be66abc7c")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c1381c72-3c88-4926-94ec-1a67d740487d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_line
+		(start -5.4 -2.62)
+		(end 14.4 -2.62)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "752ec314-a888-49f4-a1ec-b82a3d759dd9")
+	)
+	(fp_line
+		(start -5.4 2.62)
+		(end -5.4 -2.62)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "94fa57fe-5c9c-4817-9bb2-d286f9db8ba3")
+	)
+	(fp_line
+		(start 14.4 -2.62)
+		(end 14.4 2.62)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "d48c4051-75ba-4dc2-978e-ce1cdb0479cd")
+	)
+	(fp_line
+		(start 14.4 2.62)
+		(end -5.4 2.62)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "cd289556-7277-4f69-8aa8-bb4563fc066f")
+	)
+	(fp_rect
+		(start -5.5 -2.7)
+		(end 14.5 2.7)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "ed1b3b4c-25f4-4ac5-bbf4-5bb21683bcda")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 4.5 0 0)
+		(layer "F.Fab")
+		(uuid "4a807094-5542-4823-9456-e93ea32d049b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole circle
+		(at 0 -1)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "a8415a4e-fa9b-453f-bab4-8fa389f18522")
+	)
+	(pad "2" thru_hole circle
+		(at 9 1)
+		(size 2 2)
+		(drill 1)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "75b6c1ef-3d36-4d36-aaae-849a877b687a")
+	)
+	(embedded_fonts no)
+	(model "${KICAD9_3DMODEL_DIR}/Resistor_THT.3dshapes/R_Box_L14.0mm_W5.0mm_P9.00mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

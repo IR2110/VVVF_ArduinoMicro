@@ -1,0 +1,327 @@
+(footprint "TLP152"
+	(version 20241229)
+	(generator "pcbnew")
+	(generator_version "9.0")
+	(layer "F.Cu")
+	(descr "SOIC, 5 Pin (JEDEC MO-155, variation AA, 2.50mm nominal body thickness, https://www.jedec.org/system/files/docs/Mo-155a.pdf), generated with kicad-footprint-generator ipc_gullwing_generator.py")
+	(tags "SOIC SO")
+	(property "Reference" "REF**"
+		(at 0 -2.75 0)
+		(layer "F.SilkS")
+		(uuid "05eefacd-ba9b-4a41-a4de-84a34670e0bd")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "TLP152"
+		(at 0 2.75 0)
+		(layer "F.Fab")
+		(uuid "cea8f67b-c0c0-4b02-aa22-171383122a74")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2af066fb-dd02-46fb-91e3-1e4298b8be6d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "3b26cc59-7cdc-4ad9-8bfe-922c4d4074d3")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(fp_line
+		(start -2.31 -1.91)
+		(end 2.31 -1.91)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "7fe3fd83-2a8a-4e4d-800c-6683c37011c9")
+	)
+	(fp_line
+		(start -2.31 -1.83)
+		(end -2.31 -1.91)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "ae988b2b-a47f-404a-9a84-90ddd4095834")
+	)
+	(fp_line
+		(start -2.31 0.71)
+		(end -2.31 -0.71)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "6823c42c-3cd3-4841-b9e0-b4f5c7e1ec60")
+	)
+	(fp_line
+		(start -2.31 1.91)
+		(end -2.31 1.83)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "be36d995-aa90-4243-b2c8-e31f03687c62")
+	)
+	(fp_line
+		(start 2.31 -1.91)
+		(end 2.31 -1.83)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "aaa86688-e7d0-40a2-abce-f6ebe3d041f8")
+	)
+	(fp_line
+		(start 2.31 1.83)
+		(end 2.31 1.91)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "e01b142e-ca0a-469a-9f40-d51e7fe72c23")
+	)
+	(fp_line
+		(start 2.31 1.91)
+		(end -2.31 1.91)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "48b024b4-bd27-45d4-84a2-37df93316e40")
+	)
+	(fp_poly
+		(pts
+			(xy -3.12 -0.71) (xy -2.78 -0.24) (xy -3.46 -0.24)
+		)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "1b8d3a73-986a-49a5-bf78-386d1b7a96a3")
+	)
+	(fp_line
+		(start -4.2 -1.82)
+		(end -2.45 -1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "b24e6c5b-88d6-462a-87a2-4b6af5aade1f")
+	)
+	(fp_line
+		(start -4.2 1.82)
+		(end -4.2 -1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8c841193-f2a2-4046-83a9-5adb5934ffb9")
+	)
+	(fp_line
+		(start -2.45 -2.05)
+		(end 2.45 -2.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "fa0e4681-881f-4cd9-b731-d7ad2c90c772")
+	)
+	(fp_line
+		(start -2.45 -1.82)
+		(end -2.45 -2.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "8fa38d0a-4665-43db-8a2a-7bd5c64abe38")
+	)
+	(fp_line
+		(start -2.45 1.82)
+		(end -4.2 1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "65418a3a-2604-4d2a-9c49-fb2c70b2013b")
+	)
+	(fp_line
+		(start -2.45 2.05)
+		(end -2.45 1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a1e09c70-60d7-4f12-8848-2ffd03f53e69")
+	)
+	(fp_line
+		(start 2.45 -2.05)
+		(end 2.45 -1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "49d9a122-7338-4a9a-902d-57fb723f2f81")
+	)
+	(fp_line
+		(start 2.45 -1.82)
+		(end 4.2 -1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "33b85ea5-520a-4263-94f7-5cb392aa0c76")
+	)
+	(fp_line
+		(start 2.45 1.82)
+		(end 2.45 2.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "a7efc59d-4cf7-4981-844e-c861c304ef40")
+	)
+	(fp_line
+		(start 2.45 2.05)
+		(end -2.45 2.05)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "96e75866-32e1-4b86-bbde-b353d406cf14")
+	)
+	(fp_line
+		(start 4.2 -1.82)
+		(end 4.2 1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "1f4b29c2-f1ef-4a66-a5ef-45c391e2b308")
+	)
+	(fp_line
+		(start 4.2 1.82)
+		(end 2.45 1.82)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "5b43dda7-5108-49dc-91e6-5eecb4fb5ce6")
+	)
+	(fp_poly
+		(pts
+			(xy -2.2 -0.9) (xy -2.2 1.8) (xy 2.2 1.8) (xy 2.2 -1.8) (xy -1.3 -1.8)
+		)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "0d13908f-4f4a-46fb-847b-b66170842ef0")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "bc56eb3b-7327-4dd4-8090-b308f08bba79")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -3.1125 -1.27)
+		(size 1.675 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "62197739-e851-4dd7-bb59-f3398b713bf5")
+	)
+	(pad "2" smd roundrect
+		(at -3.1125 1.27)
+		(size 1.675 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "1ce6b052-e9b0-4606-9bf7-00c29b6409fa")
+	)
+	(pad "4" smd roundrect
+		(at 3.1125 1.27)
+		(size 1.675 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "c086ddf3-a548-4140-835b-766a3cb6b0a4")
+	)
+	(pad "5" smd roundrect
+		(at 3.1125 0)
+		(size 1.675 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "8644e152-19e1-4b6a-ae04-32e6e1c582f4")
+	)
+	(pad "6" smd roundrect
+		(at 3.1125 -1.27)
+		(size 1.675 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "5263566b-f870-4e00-a536-4095084d04c6")
+	)
+	(embedded_fonts no)
+	(model "${KICAD9_3DMODEL_DIR}/Package_SO.3dshapes/SOIC-5-6_4.4x3.6mm_P1.27mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

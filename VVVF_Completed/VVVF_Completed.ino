@@ -56,6 +56,7 @@ void setup() {
   setup_timer1_3phase();
   setup_timer3_param_update();
   sei();
+  pinMode(7, INPUT);
 }
 
 void loop() {
@@ -79,8 +80,15 @@ void loop() {
 }
 
 void update() {  //  samplingRate [Hz]ごとに呼ばれる
-  pmref.fSig += 4 / samplingRate;
+  float Freq_ref = (fmin(fmax(analogRead(0), 128), 895) - 128) * MAX_FSIG / (1023 - 256);
+  if (pmref.fSig < Freq_ref) {
+    pmref.fSig += 4 / samplingRate;
+  } else {
+    pmref.fSig -= 4 / samplingRate;
+  }
+
   pmref.mVoltage = pmref.fSig / 80.0f + 0.02f;
+  if (pmref.fSig < 0.01) pmref.mVoltage = 0;
 
   float fsw = 800.0f;
   if (pm.modulation_index * (2 * LUT_ZERO_LEVEL) > 1) {
