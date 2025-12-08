@@ -23,6 +23,10 @@ Arduino Microで1kHz、デューティ比50%のPWM信号を生成。
 正式な3相PWM生成用プログラム。位相アキュムレータとかちゃんとしたバージョン。
 
 ## VVVF_Completed
-ファイルパス: `VVVVF_Completed/VVVF_Completed.ino`
+ファイルパス: `VVVF_Completed/VVVF_Completed.ino`
 
 THI・SVMや電圧補償係数の実装もしてあるArduino Microで非同期PWMを出すためにいろいろ頑張ったやつ。発展型。
+
+## SampleInverter
+ファイルパス: `SampleInverter/SampleInverter.kicad_pro`
+本書で作ったインバータのサンプルプロジェクト
